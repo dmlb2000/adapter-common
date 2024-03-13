@@ -24,7 +24,7 @@
     "require": {
         "php": ">=7.4",
         "cache/tag-interop": "^1.0",
-        "psr/cache": "^1.0 || ^2.0",
+        "psr/cache": "^1.0 || ^2.0 || ^3.0",
         "psr/log": "^1.0 || ^2.0 || ^3.0",
         "psr/simple-cache": "^1.0"
     },
@@ -36,16 +36,13 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Cache\\Adapter\\Common\\": ""
+            "Cache\\Adapter\\Common\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Cache\\Adapter\\Common\\Tests\\": "Tests/"
-        },
-        "exclude-from-classmap": [
-            "/Tests/"
-        ]
+        }
     },
     "extra": {
         "branch-alias": {
