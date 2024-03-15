@@ -13,6 +13,7 @@ namespace Cache\Adapter\Common;
 
 use Cache\Adapter\Common\Exception\InvalidArgumentException;
 use Cache\TagInterop\TaggableCacheItemInterface;
+use Psr\Cache\CacheItemInterface;
 
 /**
  * @author Aaron Scherer <aequasi@gmail.com>
@@ -191,7 +192,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function setTags(array $tags)
+    public function setTags(array $tags): CacheItemInterface
     {
         $this->tags = [];
         $this->tag($tags);
