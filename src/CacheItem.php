@@ -154,7 +154,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function expiresAfter(DateInterval|int|null $time): static
+    public function expiresAfter(\DateInterval|int|null $time): static
     {
         if ($time === null) {
             $this->expirationTimestamp = null;
