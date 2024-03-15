@@ -534,7 +534,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function deleteMultiple(array $keys): bool
+    public function deleteMultiple(iterable $keys): bool
     {
         if (!is_array($keys)) {
             if (!$keys instanceof \Traversable) {
