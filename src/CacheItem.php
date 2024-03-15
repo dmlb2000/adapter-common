@@ -88,7 +88,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function set($value)
+    public function set(mixed $value)
     {
         $this->value    = $value;
         $this->hasValue = true;
@@ -100,10 +100,10 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function get()
+    public function get(): mixed
     {
         if (!$this->isHit()) {
-            return;
+            return null;
         }
 
         return $this->value;
