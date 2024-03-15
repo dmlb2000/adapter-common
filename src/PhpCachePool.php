@@ -24,7 +24,7 @@ interface PhpCachePool extends TaggableCacheItemPoolInterface
      *
      * @return PhpCacheItem
      */
-    public function getItem($key): CacheItemInterface;
+    public function getItem(string $key): CacheItemInterface;
 
     /**
      * {@inheritdoc}
