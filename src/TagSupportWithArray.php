@@ -25,7 +25,7 @@ trait TagSupportWithArray
      *
      * @return mixed
      */
-    abstract public function getDirectValue($name);
+    abstract public function getDirectValue(string $name): mixed;
 
     /**
      * Set a value to the storage.
@@ -33,12 +33,12 @@ trait TagSupportWithArray
      * @param string $name
      * @param mixed  $value
      */
-    abstract public function setDirectValue($name, $value);
+    abstract public function setDirectValue(string $name, mixed $value);
 
     /**
      * {@inheritdoc}
      */
-    protected function appendListItem($name, $value)
+    protected function appendListItem(string $name, mixed $value)
     {
         $data = $this->getDirectValue($name);
         if (!is_array($data)) {
@@ -51,7 +51,7 @@ trait TagSupportWithArray
     /**
      * {@inheritdoc}
      */
-    protected function getList($name)
+    protected function getList(string $name): iterable
     {
         $data = $this->getDirectValue($name);
         if (!is_array($data)) {
@@ -64,7 +64,7 @@ trait TagSupportWithArray
     /**
      * {@inheritdoc}
      */
-    protected function removeList($name)
+    protected function removeList(string $name): bool
     {
         $this->setDirectValue($name, []);
 
@@ -74,7 +74,7 @@ trait TagSupportWithArray
     /**
      * {@inheritdoc}
      */
-    protected function removeListItem($name, $key)
+    protected function removeListItem(string $name, $key)
     {
         $data = $this->getList($name);
         foreach ($data as $i => $value) {

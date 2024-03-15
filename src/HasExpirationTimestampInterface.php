@@ -22,5 +22,5 @@ interface HasExpirationTimestampInterface
      *
      * @return int|null
      */
-    public function getExpirationTimestamp();
+    public function getExpirationTimestamp(): int|null;
 }

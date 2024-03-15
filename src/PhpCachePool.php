@@ -12,6 +12,7 @@
 namespace Cache\Adapter\Common;
 
 use Cache\TagInterop\TaggableCacheItemPoolInterface;
+use Psr\Cache\CacheItemInterface;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
@@ -23,12 +24,12 @@ interface PhpCachePool extends TaggableCacheItemPoolInterface
      *
      * @return PhpCacheItem
      */
-    public function getItem($key);
+    public function getItem($key): CacheItemInterface;
 
     /**
      * {@inheritdoc}
      *
      * @return array|\Traversable|PhpCacheItem[]
      */
-    public function getItems(array $keys = []);
+    public function getItems(array $keys = []): iterable;
 }

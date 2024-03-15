@@ -41,7 +41,7 @@ trait JsonBinaryArmoring
      *
      * @return string
      */
-    protected static function jsonArmor($value)
+    protected static function jsonArmor(string $value): string
     {
         return str_replace(
             static::$ESCAPE_JSON_CHARACTERS,
@@ -57,7 +57,7 @@ trait JsonBinaryArmoring
      *
      * @return string
      */
-    protected static function jsonDeArmor($value)
+    protected static function jsonDeArmor(string $value): string
     {
         return utf8_decode(str_replace(
             static::$ENCODED_JSON_CHARACTERS,

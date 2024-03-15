@@ -28,5 +28,5 @@ interface PhpCacheItem extends HasExpirationTimestampInterface, TaggableCacheIte
      *
      * @return array
      */
-    public function getTags();
+    public function getTags(): iterable;
 }

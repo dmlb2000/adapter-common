@@ -111,7 +111,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function isHit()
+    public function isHit(): bool
     {
         $this->initialize();
 
@@ -129,7 +129,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function getExpirationTimestamp()
+    public function getExpirationTimestamp(): int|null
     {
         return $this->expirationTimestamp;
     }
