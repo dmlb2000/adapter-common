@@ -14,7 +14,6 @@ namespace Cache\Adapter\Common;
 use Cache\Adapter\Common\Exception\InvalidArgumentException;
 use Cache\TagInterop\TaggableCacheItemInterface;
 use Psr\Cache\CacheItemInterface;
-use Psr\Cache\DateTimeInterface;
 
 /**
  * @author Aaron Scherer <aequasi@gmail.com>
@@ -139,7 +138,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function expiresAt(?DateTimeInterface $expiration): static
+    public function expiresAt(?\DateTimeInterface $expiration): static
     {
         if ($expiration instanceof \DateTimeInterface) {
             $this->expirationTimestamp = $expiration->getTimestamp();
