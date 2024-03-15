@@ -183,7 +183,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function getTags()
+    public function getTags(): iterable
     {
         return $this->tags;
     }
