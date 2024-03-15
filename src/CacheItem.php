@@ -173,7 +173,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function getPreviousTags()
+    public function getPreviousTags(): iterable
     {
         $this->initialize();
 
