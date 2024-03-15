@@ -88,7 +88,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function set(mixed $value)
+    public function set(mixed $value): static
     {
         $this->value    = $value;
         $this->hasValue = true;
