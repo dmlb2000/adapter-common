@@ -14,6 +14,7 @@ namespace Cache\Adapter\Common;
 use Cache\Adapter\Common\Exception\InvalidArgumentException;
 use Cache\TagInterop\TaggableCacheItemInterface;
 use Psr\Cache\CacheItemInterface;
+use Psr\Cache\DateTimeInterface;
 
 /**
  * @author Aaron Scherer <aequasi@gmail.com>
