@@ -138,7 +138,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function expiresAt($expiration)
+    public function expiresAt(?DateTimeInterface $expiration): static
     {
         if ($expiration instanceof \DateTimeInterface) {
             $this->expirationTimestamp = $expiration->getTimestamp();
