@@ -154,7 +154,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function expiresAfter(DateInterval|int|null $time)
+    public function expiresAfter(DateInterval|int|null $time): static
     {
         if ($time === null) {
             $this->expirationTimestamp = null;
@@ -209,7 +209,7 @@ class CacheItem implements PhpCacheItem
      *
      * @return TaggableCacheItemInterface
      */
-    private function tag($tags)
+    private function tag(array $tags): static
     {
         $this->initialize();
 
