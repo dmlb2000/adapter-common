@@ -63,7 +63,7 @@ class CacheItem implements PhpCacheItem
      * @param string        $key
      * @param \Closure|bool $callable or boolean hasValue
      */
-    public function __construct($key, $callable = null, $value = null)
+    public function __construct(string $key, $callable = null, $value = null)
     {
         $this->key = $key;
 
@@ -79,7 +79,7 @@ class CacheItem implements PhpCacheItem
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }

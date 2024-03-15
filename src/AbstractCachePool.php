@@ -43,7 +43,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return bool true if saved
      */
-    abstract protected function storeItemInCache(PhpCacheItem $item, $ttl);
+    abstract protected function storeItemInCache(PhpCacheItem $item, null|int|\DateInterval $ttl): bool;
 
     /**
      * Fetch an object from the cache implementation.
@@ -54,14 +54,14 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return array with [isHit, value, tags[], expirationTimestamp]
      */
-    abstract protected function fetchObjectFromCache($key);
+    abstract protected function fetchObjectFromCache(string $key): bool;
 
     /**
      * Clear all objects from cache.
      *
      * @return bool false if error
      */
-    abstract protected function clearAllObjectsFromCache();
+    abstract protected function clearAllObjectsFromCache(): bool;
 
     /**
      * Remove one object from cache.
@@ -70,7 +70,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return bool
      */
-    abstract protected function clearOneObjectFromCache($key);
+    abstract protected function clearOneObjectFromCache(string $key): bool;
 
     /**
      * Get an array with all the values in the list named $name.
@@ -79,7 +79,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return array
      */
-    abstract protected function getList($name);
+    abstract protected function getList(string $name): iterable;
 
     /**
      * Remove the list.
@@ -88,7 +88,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return bool
      */
-    abstract protected function removeList($name);
+    abstract protected function removeList(string $name): bool;
 
     /**
      * Add a item key on a list named $name.
@@ -96,7 +96,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      * @param string $name
      * @param string $key
      */
-    abstract protected function appendListItem($name, $key);
+    abstract protected function appendListItem(string $name, string $key);
 
     /**
      * Remove an item from the list.
@@ -104,7 +104,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      * @param string $name
      * @param string $key
      */
-    abstract protected function removeListItem($name, $key);
+    abstract protected function removeListItem(string $name, string $key);
 
     /**
      * Make sure to commit before we destruct.
@@ -117,7 +117,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function getItem($key)
+    public function getItem(string $key): CacheItemInterface
     {
         $this->validateKey($key);
         if (isset($this->deferred[$key])) {
@@ -142,7 +142,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function getItems(array $keys = [])
+    public function getItems(array $keys = []): iterable
     {
         $items = [];
         foreach ($keys as $key) {
@@ -155,7 +155,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function hasItem($key)
+    public function hasItem(string $key): bool
     {
         try {
             return $this->getItem($key)->isHit();
@@ -167,7 +167,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function clear()
+    public function clear(): bool
     {
         // Clear the deferred items
         $this->deferred = [];
@@ -182,7 +182,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function deleteItem($key)
+    public function deleteItem(string $key): bool
     {
         try {
             return $this->deleteItems([$key]);
@@ -194,7 +194,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function deleteItems(array $keys)
+    public function deleteItems(array $keys): bool
     {
         $deleted = true;
         foreach ($keys as $key) {
@@ -218,7 +218,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function save(CacheItemInterface $item)
+    public function save(CacheItemInterface $item): bool
     {
         if (!$item instanceof PhpCacheItem) {
             $e = new InvalidArgumentException('Cache items are not transferable between pools. Item MUST implement PhpCacheItem.');
@@ -246,7 +246,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function saveDeferred(CacheItemInterface $item)
+    public function saveDeferred(CacheItemInterface $item): bool
     {
         $this->deferred[$item->getKey()] = $item;
 
@@ -256,7 +256,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function commit()
+    public function commit(): bool
     {
         $saved = true;
         foreach ($this->deferred as $item) {
@@ -274,7 +274,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @throws InvalidArgumentException
      */
-    protected function validateKey($key)
+    protected function validateKey(string $key)
     {
         if (!is_string($key)) {
             $e = new InvalidArgumentException(sprintf(
@@ -311,7 +311,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      * @param string $message
      * @param array  $context
      */
-    protected function log($level, $message, array $context = [])
+    protected function log($level, string $message, array $context = [])
     {
         if ($this->logger !== null) {
             $this->logger->log($level, $message, $context);
@@ -326,7 +326,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @throws CachePoolException
      */
-    private function handleException(\Exception $e, $function)
+    private function handleException(\Exception $e, string $function)
     {
         $level = 'alert';
         if ($e instanceof InvalidArgumentException) {
@@ -346,7 +346,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return bool
      */
-    public function invalidateTags(array $tags)
+    public function invalidateTags(array $tags): bool
     {
         $itemIds = [];
         foreach ($tags as $tag) {
@@ -367,7 +367,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
         return $success;
     }
 
-    public function invalidateTag($tag)
+    public function invalidateTag($tag): bool
     {
         return $this->invalidateTags([$tag]);
     }
