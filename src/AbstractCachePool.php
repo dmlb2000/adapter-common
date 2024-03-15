@@ -54,7 +54,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
      *
      * @return array with [isHit, value, tags[], expirationTimestamp]
      */
-    abstract protected function fetchObjectFromCache(string $key): bool;
+    abstract protected function fetchObjectFromCache(string $key): array;
 
     /**
      * Clear all objects from cache.
