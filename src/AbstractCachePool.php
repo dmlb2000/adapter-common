@@ -457,7 +457,7 @@ abstract class AbstractCachePool implements PhpCachePool, LoggerAwareInterface, 
     /**
      * {@inheritdoc}
      */
-    public function getMultiple(string $keys, mixed $default = null): \Generator
+    public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         if (!is_array($keys)) {
             if (!$keys instanceof \Traversable) {
